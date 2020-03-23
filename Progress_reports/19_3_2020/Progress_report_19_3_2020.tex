@@ -1,0 +1,103 @@
+\documentclass[twocolumn,9pt,a4j]{jarticle}
+%
+\usepackage[top=5truemm,bottom=5truemm,left=2truemm,right=2truemm]{geometry}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{ascmac}
+\usepackage{cases}
+\usepackage{bm}
+
+% プリアンブル
+\title{1st progress report}
+\author{Mamoru Shibata}
+\date{2020/3/19}
+
+\begin{document}
+  % タイトルを出力
+  \maketitle
+
+  \section{Describe the 4 encoding methods}
+  	Define a set of input values as ${\bf X=(x_1, x_2, ...,x_p)}$. $p$ is the types of features. And ${\bm x}_i = \left(
+		\begin{array}{c}
+			x_{i1}\\
+			x_{i2}\\
+			\vdots \\
+			x_{in}
+		\end{array}
+	\right)$, $x_{ij} \in {\cal{X}}_{i}$, $|{\cal X}_i| = N_i$. The target feature is ${\bf y} =  \left(
+		\begin{array}{c}
+			y_{1}\\
+			y_{2}\\
+			\vdots \\
+			y_{n}
+		\end{array}
+	\right), y_i \in (0, 1).
+	$
+  	\subsection{One-Hot-Coding}
+		Define The function of One-Hot Coding as $OHC({\bf x})$.
+		\begin{eqnarray}
+			OHC({\bf x}_i) = (e_1^i, e_2^i, ... , e_{N_i}^i)\\
+			e_1^i + e_2^i + ,..., + e_{N_i}^i = 1\\
+			e_j^i = \begin{cases}
+				1 & (x_{ij} = e_j^i)\\
+				0 & (otherwise)
+			\end{cases}
+		\end{eqnarray}
+	\subsection{Label Encoding}
+		Define The function of Label encoding as $LE({\bf x})$.
+		\begin{eqnarray}
+			LE({\bf x}_i) = \left(
+				\begin{array}{c}
+					t_{i1}\\
+					t_{i2}\\
+					\vdots\\
+					t_{in}
+				\end{array}
+			\right)\\
+			t_{ij} \in \mathbb{Z}\\
+			t_{ij} = t_{ik}\  {\rm only\  if\ } x_{ij} = x_{ik}
+		\end{eqnarray}
+	\subsection{Target Encoding}
+		Define The function of Label encoding as $TE({\bf x})$.
+		\begin{eqnarray}
+			TE({\bf x}_i) = \left(
+				\begin{array}{c}
+					s_{i1}\\
+					s_{i2}\\
+					\vdots\\
+					s_{in}
+				\end{array}
+			\right)\\
+			s_{ij} \in \mathbb{R}\\
+			s_{ij} = \frac{\sum_{k, x_{ik} = x_{ij} , y_k = 1}}{\sum_{k, x_{ik} = x_{ij} }}
+		\end{eqnarray}
+	\subsection{One-Hot-Coding + PCA}
+		Define The function of OHC+PCA as $OP({\bf x})$.
+		\begin{eqnarray}
+			OHC({\bf x}_i) = (e_1^i, e_2^i, ... , e_{N_i}^i)\\
+			OP({\bf x}_i) = (e_1'^1, e_2'^i, ... , e_{N_i'}'^i)\\
+			N_i > N_i'
+		\end{eqnarray}
+  \section{Describe the 3 learning methods}
+  	\subsection{SVM}
+		\begin{enumerate}
+			\item C : The penalty of misclassification. This parameter is decided by Cross Validation.
+			\item Kernel : The kernel function is "RBF". This function give the weight for points. $K(x,x')=\exp(\frac{\gamma ||x-x'||^2}{2\sigma^2})$
+			\item Probability : True. The predict probability is "The probability of collect prediction"???
+			\item gamma : The parameter of kernel. Use "scale". So, $\gamma = 1/({\rm n\_features * X\_variance})$
+		\end{enumerate} 
+	\subsection{Decision Tree}
+		The all parameters are default.
+		\begin{enumerate}
+			\item criterion : "gini". The function to measure the quality of a split.
+			\item splitter : "best". The strategy used to choose the split at each node.
+			\item max\_depth : "None". The maximum depth of the tree.
+			\item min\_samples\_leaf : "1". The minimum number of samples required to be at a leaf node.
+			\item max\_iter : "3000". Maximum number of iterations in the solver.
+		\end{enumerate}
+	\subsection{Neural Network}
+		\begin{enumerate}
+			\item hidden\_layer\_sizes : "(100,)". The $i$th element represents the number of neurons in the $i$th hidden layer. So, the number of hidden layers is "1".
+			\item activation : "ReLU". Activation function for the hidden layer. $ f(x) = \max(0, x)$
+		\end{enumerate}
+\end{document}
